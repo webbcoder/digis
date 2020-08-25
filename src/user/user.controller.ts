@@ -4,7 +4,8 @@ import { Response } from 'express';
 import {UserService} from "./user.service";
 import {CreateUserDto} from "./dto/create-user.dto";
 import {IUser} from "./interfaces/user.interface";
-
+import {ApiParam, ApiTags} from "@nestjs/swagger";
+@ApiTags('user')
 @Controller('user')
 export class UserController {
     constructor(private readonly userService: UserService) { }
@@ -29,7 +30,7 @@ export class UserController {
             res.send(error.message)
         }
     }
-
+    @ApiParam({name: 'id', type: 'string', required: true})
     @Get('/:id')
     async getUser(@Param() params, @Res() res:Response): Promise<void> {
         try {
@@ -40,6 +41,7 @@ export class UserController {
         }
     }
 
+    @ApiParam({name: 'id', type: 'string', required: true})
     @Put('/:id')
     async updateUser(
         @Body(new ValidationPipe()) createUserDto: CreateUserDto,
